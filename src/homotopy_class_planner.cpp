@@ -769,6 +769,17 @@ bool HomotopyClassPlanner::computeStartOrientation(const TebOptimalPlannerPtr pl
     return false;
   orientation = std::atan2(start_vector[1], start_vector[0]);
   return true;
+bool HomotopyClassPlanner::getMeanVelocities(double up_to_dist, double& mean_vel_x, double& mean_vel_y, double& mean_vel_theta, bool& incl_backward_motion) const
+{
+  TebOptimalPlannerPtr best = bestTeb();
+  if (!best)
+  {
+    mean_vel_x = mean_vel_y = mean_vel_theta = 0;
+    incl_backward_motion = false;
+    return false;
+  }
+
+  return best->getMeanVelocities(up_to_dist, mean_vel_x, mean_vel_y, mean_vel_theta, incl_backward_motion);
 }
 
 
