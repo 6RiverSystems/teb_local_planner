@@ -376,20 +376,20 @@ bool TebLocalPlannerROS::computeVelocityCommands(geometry_msgs::Twist& cmd_vel)
     last_cmd_ = cmd_vel;
     return false;
   }
+
+   if (cfg_.robot.overwrite_backward_by_inplace_motion)
+  {
+    rotateInPlaceIfBackward(cmd_vel);
+    //if (rotateInPlaceIfBackward(cmd_vel))
+      // ROS_INFO_STREAM("Backwards motion overwritten by inplace motion: ");
+  }
+
   double max_vel_x =  cfg_.robot.max_vel_x;
   double max_vel_theta = cfg_.robot.max_vel_theta;
   speed_limit_manager_.setPlan(transformed_plan);
   if (!speed_limit_manager_.calculateLimits(max_vel_x, max_vel_theta)) 
   {
     ROS_WARN_THROTTLE(10.0, "One of the speed limiters failed");
-  }
-
-
-  if (cfg_.robot.overwrite_backward_by_inplace_motion)
-  {
-    rotateInPlaceIfBackward(cmd_vel);
-    //if (rotateInPlaceIfBackward(cmd_vel))
-      //ROS_INFO_STREAM("Backwards motion overwritten by inplace motion: ");
   }
   
   // Saturate velocity, if the optimization results violates the constraints (could be possible due to soft constraints).
@@ -939,7 +939,7 @@ bool TebLocalPlannerROS::rotateInPlaceIfBackward(geometry_msgs::Twist& cmd_vel)
   else
   {
     if (mean_vel_theta < 0) vel *= -1;
-    // ROS_INFO("new inplace rotation");
+    ROS_INFO("new inplace rotation");
   }
 
 
