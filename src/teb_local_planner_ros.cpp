@@ -43,7 +43,7 @@
 #include <boost/algorithm/string.hpp>
 
 // pluginlib macros
-#include <pluginlib/class_list_macros.h>
+#include <pluginlib/class_list_macros.hpp>
 
 #include "g2o/core/sparse_optimizer.h"
 #include "g2o/core/block_solver.h"
