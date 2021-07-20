@@ -179,7 +179,7 @@ void TebLocalPlannerROS::initialize(std::string name, tf::TransformListener* tf,
     nh_move_base.param("controller_frequency", controller_frequency, controller_frequency);
     failure_detector_.setBufferLength(std::round(cfg_.recovery.oscillation_filter_duration*controller_frequency));
     
-    speed_limit_manager_.initialize(costmap_ros_, name);
+    speed_limit_manager_.initialize(costmap_ros_, name, tf_);
 
     // set initialized flag
     initialized_ = true;
